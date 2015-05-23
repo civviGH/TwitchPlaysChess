@@ -1,0 +1,46 @@
+classes:
+	init with position
+		team
+		
+	funcs:
+		check for valid turn
+		update position
+
+
+
+getdirection
+länger1r2 = min(richtung1, richtung2)
+check target:
+	pass or fail
+if länge == 1:
+	success
+else
+	if check weg
+		success
+	fail
+	
+	
+	
+for i in range(1,länger1r2):
+	obstacleCheck[posx + i][posy + i]
+
+x 1 2 3 4 5 6 7 8		
+1 0 0 0 0 0 0 0 0
+2 0 0 0 0 0 y 0 0
+3 0 0 0 0 0 0 0 0
+4 0 0 0 0 0 0 0 0
+5 0 0 0 0 0 0 0 0
+6 0 0 0 0 0 x 0 0
+7 0 0 0 0 0 0 0 0
+8 0 0 0 0 0 0 0 0
+
+
+refactor tower checkturn
+	check target:
+		pass or fail
+	if länge == 1:
+		suc
+	else
+		if weg:
+			suc
+		fail
