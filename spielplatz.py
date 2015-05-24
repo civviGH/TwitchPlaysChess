@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 import pieces as p
 from chartoint import dic
 debug = 1

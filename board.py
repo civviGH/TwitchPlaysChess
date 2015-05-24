@@ -1,8 +1,8 @@
+# -*- coding: utf-8 -*-
+
 import Tkinter as Tk
 import pieces as p
-import sys
 from thread import start_new_thread
-from time import sleep
 from chartoint import dic
 
 debug = 0

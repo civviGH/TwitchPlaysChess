@@ -1,4 +1,6 @@
-#decide if debugging is printed to console
+# -*- coding: utf-8 -*-
+
+# #decide if debugging is printed to console
 #1 = true
 debug = 1
 
