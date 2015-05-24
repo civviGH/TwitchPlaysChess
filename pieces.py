@@ -17,7 +17,7 @@ class King:
 	def checkValidTurn(self, tox, toy, board):
 		
 		"""
-		könnte umgeschrieben werden zu:
+		koennte umgeschrieben werden zu:
 			try:
 				if board[tox][toy].team == self.team:
 					return 0
@@ -101,11 +101,12 @@ class Tower:
 			
 			
 			"""
-			könnte in eine funktion ausgelagert werden,
-			die für zwei beliebie nat. zahlen x,y alle
-			zahlen dazwischen gibt, so dass zb:
+			koennte in eine funktion ausgelagert werden,
+			die fuer zwei beliebige natuerliche zahlen  x,y alle
+			zahlen dazwischen gibt, so dass zb
 				foo(7,3) -> [4,5,6] etc
 			"""
+			
 			#check for range(x,y), as it only works with x < y
 			if posy > toy:
 				

@@ -65,7 +65,7 @@ start_new_thread(root.mainloop,())
 board = [[0 for x in range(8)] for x in range(8)]
 
 """
-das hier kann man bestimmt schön als tests auslagern
+das hier kann man bestimmt schoen als tests auslagern
 """
 
 #testing
@@ -85,10 +85,11 @@ while c != "quit" and c!= "exit":
 	cmd = c.split()
 	try:
 		if cmd[0] == "move":
-			#eg: !move c3 d3
+			#eg: move c3 d3
 			#compute actual list indices
 			fromx = dic[cmd[1][0]]
 			fromy = int(cmd[1][1])-1
+			#dic from charToInt.py translates letters to indices
 			tox = dic[cmd[2][0]]
 			toy = int(cmd[2][1])-1
 			if debug:
