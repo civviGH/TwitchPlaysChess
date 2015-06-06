@@ -215,9 +215,30 @@ class Runner(Piece):
     TODO
     """
 
-    def checkValidTurn(self, tox, toy, board):
-        if not super(Runner, self).checkValidTurn(tox, toy, board):
+    def checkValidTurn(self, tox, toy):
+        if not super(Runner, self).checkValidTurn(tox, toy):
             return 0
+
+        posx = self.position[0]
+        posy = self.position[1]
+
+        if tox == posx or abs(float(toy - posy) / float(tox - posx)) != 1.0:
+            return 0
+
+        if not isinstance(self.board[tox][toy], int) and (self.board[tox][toy].team == self.team):
+            return 0
+
+        distance = abs(posx - tox)
+        modifier_x = (tox - posx) / abs(posx - tox)
+        modifier_y = (toy - posy) / abs(posy - toy)
+        current_x = posx + modifier_x
+        current_y = posy + modifier_y
+        for i in range(distance - 1):
+            if not isinstance(self.board[current_x][current_y], int):
+                return 0
+            current_x += modifier_x
+            current_y += modifier_y
+        return 1
 
     def updatePosition(self, xpos, ypos):
         pass
