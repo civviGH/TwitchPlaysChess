@@ -20,6 +20,8 @@ class Piece:
             return 0
         return 1
 
+    def updatePosition(self, xpos, ypos):
+        self.position = [xpos, ypos]
 
 class King(Piece):
     def __init__(self, xpos, ypos, team):
@@ -70,9 +72,6 @@ class King(Piece):
             print "Bewegung von {} nicht moeglich".format(self.name)
         return 0
 
-    def updatePosition(self, xpos, ypos):
-        self.position = [xpos, ypos]
-
     # draw piece on board, dimensions hardcoded atm
     def drawSelf(self, canvas):
         canvas.create_rectangle(self.position[0] * 110 + 30, self.position[1] * 110 + 30, self.position[0] * 110 + 80,
@@ -95,9 +94,6 @@ class Queen(Piece):
         if not super(Queen, self).checkValidTurn(tox, toy):
             return 0
         return check_valid_tower_move(self, tox, toy) or check_valid_runner_move(self, tox, toy)
-
-    def updatePosition(self, xpos, ypos):
-        pass
 
     def drawSelf(self, canvas):
         pass
@@ -190,9 +186,6 @@ class Tower(Piece):
 
         return check_valid_tower_move(self, tox, toy)
 
-    def updatePosition(self, xpos, ypos):
-        self.position = [xpos, ypos]
-
     # square with line from top to bottom
     def drawSelf(self, canvas):
         canvas.create_rectangle(self.position[0] * 110 + 30, self.position[1] * 110 + 30, self.position[0] * 110 + 80,
@@ -247,9 +240,6 @@ class Runner(Piece):
             return 0
         return check_valid_runner_move(self, tox, toy)
 
-    def updatePosition(self, xpos, ypos):
-        pass
-
     def drawSelf(self, canvas):
         pass
 
@@ -270,9 +260,6 @@ class Horse(Piece):
         if not super(Horse, self).checkValidTurn(tox, toy):
             return 0
 
-    def updatePosition(self, xpos, ypos):
-        pass
-
     def drawSelf(self, canvas):
         pass
 
@@ -291,9 +278,6 @@ class Peasant(Piece):
     def checkValidTurn(self, tox, toy):
         if not super(Peasant, self).checkValidTurn(tox, toy):
             return 0
-
-    def updatePosition(self, xpos, ypos):
-        pass
 
     def drawSelf(self, canvas):
         pass
