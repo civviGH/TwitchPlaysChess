@@ -43,6 +43,7 @@ def updateBoard(canvas, board):
 def addPiece(piece, board):
     if debug:
         print "ADDING PIECE TO BOARD"
+    piece.board = board
     board[piece.position[0]][piece.position[1]] = piece
 
 if __name__ == "__main__":

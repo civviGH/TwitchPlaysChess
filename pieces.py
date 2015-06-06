@@ -9,7 +9,7 @@ debug = 0
 class Piece:
     __metaclass__ = ABCMeta
 
-    def checkValidTurn(self, tox, toy, board):
+    def checkValidTurn(self, tox, toy):
         if tox < 0:
             return 0
         if toy < 0:
@@ -23,6 +23,7 @@ class Piece:
 
 class King(Piece):
     def __init__(self, xpos, ypos, team):
+        self.board = None
         self.position = [xpos, ypos]
         self.team = team
 
@@ -34,8 +35,8 @@ class King(Piece):
         return 'K'
 
     # check for a point and the board if a turn is valid
-    def checkValidTurn(self, tox, toy, board):
-        if not super(King, self).checkValidTurn(tox, toy, board):
+    def checkValidTurn(self, tox, toy):
+        if not super(King, self).checkValidTurn(tox, toy):
             return 0
         """
         koennte umgeschrieben werden zu:
@@ -50,19 +51,20 @@ class King(Piece):
         # check if distance to target is 1
         if abs(self.position[0] - tox) <= 1 and abs(self.position[1] - toy) <= 1:
             # target field is empty
-            if board[tox][toy] == 0:
+            if self.board[tox][toy] == 0:
                 if debug:
                     print "Bewegung von {} erfolgreich".format(self.name)
                 return 1
             # piece of own team blocks move
-            elif board[tox][toy].team == self.team:
+            elif self.board[tox][toy].team == self.team:
                 if debug:
                     print "Bewegung von {} durch Figur eigenes Teams aufgehalten".format(self.name)
                 return 0
             # enemy piece on target, valid move
             else:
                 if debug:
-                    print "Bewegung von {} erfolgreich, {} dabei geschlagen".format(self.name, board[tox][toy].name)
+                    print "Bewegung von {} erfolgreich, {} dabei geschlagen".format(self.name,
+                                                                                    self.board[tox][toy].name)
                 return 1
         if debug:
             print "Bewegung von {} nicht moeglich".format(self.name)
@@ -79,6 +81,7 @@ class King(Piece):
 
 class Queen(Piece):
     def __init__(self, xpos, ypos, team):
+        self.board = None
         self.position = [xpos, ypos]
         self.team = team
         self.doesJump = False
@@ -88,8 +91,8 @@ class Queen(Piece):
     TODO
     """
 
-    def checkValidTurn(self, tox, toy, board):
-        if not super(Queen, self).checkValidTurn(tox, toy, board):
+    def checkValidTurn(self, tox, toy):
+        if not super(Queen, self).checkValidTurn(tox, toy):
             return 0
 
 
@@ -102,14 +105,15 @@ class Queen(Piece):
 
 class Tower(Piece):
     def __init__(self, xpos, ypos, team):
+        self.board = None
         self.position = [xpos, ypos]
         self.team = team
         self.doesJump = False
         self.name = "Tower {}".format(team)
 
     # check for a point and the board if a turn is valid
-    def checkValidTurn(self, tox, toy, board):
-        if not super(Tower, self).checkValidTurn(tox, toy, board):
+    def checkValidTurn(self, tox, toy):
+        if not super(Tower, self).checkValidTurn(tox, toy):
             return 0
 
         # own position
@@ -117,7 +121,7 @@ class Tower(Piece):
         posy = self.position[1]
         # check if target position is held by teammate
         try:
-            if board[tox][toy].team == self.team:
+            if self.board[tox][toy].team == self.team:
                 if debug:
                     print "Bewegung von {} durch Figur eigenes Teams aufgehalten".format(self.name)
                 return 0
@@ -142,7 +146,7 @@ class Tower(Piece):
                 # check every field between pos and target
                 for i in range(toy + 1, posy):
                     # if obstacle found
-                    if board[posx][i] != 0:
+                    if self.board[posx][i] != 0:
                         if debug:
                             print "Bewegung von {} nicht moeglich, Hinderniss bei x:{}, y:{}".format(self.name, posx, i)
                         return 0
@@ -151,7 +155,7 @@ class Tower(Piece):
             else:
                 # check every field between pos and target
                 for i in range(posy + 1, toy):
-                    if board[posx][i] != 0:
+                    if self.board[posx][i] != 0:
                         if debug:
                             print "Bewegung von {} nicht moeglich, Hinderniss bei x:{}, y:{}".format(self.name, posx, i)
                         return 0
@@ -161,7 +165,7 @@ class Tower(Piece):
         elif toy == posy and abs(posx - tox) > 1:
             if posx > tox:
                 for i in range(tox + 1, posx):
-                    if board[i][posy] != 0:
+                    if self.board[i][posy] != 0:
                         if debug:
                             print "Bewegung von {} nicht moeglich, Hinderniss bei x:{}, y:{}".format(self.name,
                                                                                                      posx + 1, i)
@@ -169,7 +173,7 @@ class Tower(Piece):
                 return 1
             else:
                 for i in range(posx + 1, tox):
-                    if board[i][posy] != 0:
+                    if self.board[i][posy] != 0:
                         if debug:
                             print "Bewegung von {} nicht moeglich, Hinderniss bei x:{}, y:{}".format(self.name,
                                                                                                      posx + 1, i)
@@ -195,6 +199,7 @@ class Tower(Piece):
 
 class Runner(Piece):
     def __init__(self, xpos, ypos, team):
+        self.board = None
         self.position = [xpos, ypos]
         self.team = team
         self.doesJump = False
@@ -223,6 +228,7 @@ class Runner(Piece):
 
 class Horse(Piece):
     def __init__(self, xpos, ypos, team):
+        self.board = None
         self.position = [xpos, ypos]
         self.team = team
         self.doesJump = True
@@ -232,8 +238,8 @@ class Horse(Piece):
     TODO
     """
 
-    def checkValidTurn(self, tox, toy, board):
-        if not super(Horse, self).checkValidTurn(tox, toy, board):
+    def checkValidTurn(self, tox, toy):
+        if not super(Horse, self).checkValidTurn(tox, toy):
             return 0
 
     def updatePosition(self, xpos, ypos):
@@ -254,8 +260,8 @@ class Peasant(Piece):
     TODO
     """
 
-    def checkValidTurn(self, tox, toy, board):
-        if not super(Peasant, self).checkValidTurn(tox, toy, board):
+    def checkValidTurn(self, tox, toy):
+        if not super(Peasant, self).checkValidTurn(tox, toy):
             return 0
 
     def updatePosition(self, xpos, ypos):
