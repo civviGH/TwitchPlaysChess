@@ -244,20 +244,20 @@ class Runner(Piece):
         pass
 
 
-class Horse(Piece):
+class Knight(Piece):
     def __init__(self, xpos, ypos, team):
         self.board = None
         self.position = [xpos, ypos]
         self.team = team
         self.doesJump = True
-        self.name = "Horse {}".format(team)
+        self.name = "Knight {}".format(team)
 
     """
     TODO
     """
 
     def checkValidTurn(self, tox, toy):
-        if not super(Horse, self).checkValidTurn(tox, toy):
+        if not super(Knight, self).checkValidTurn(tox, toy):
             return 0
 
     def drawSelf(self, canvas):
