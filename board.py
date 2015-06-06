@@ -80,6 +80,10 @@ if __name__ == "__main__":
     addPiece(towerblack, board)
     kingwhite = p.King(5, 2, "white")
     addPiece(kingwhite, board)
+    queenwhite = p.Queen(3,3, "white")
+    addPiece(queenwhite, board)
+    runnerblack = p.Runner(7,7, "black")
+    addPiece(runnerblack, board)
 
     updateBoard(MainCanvas, board)
 

@@ -97,7 +97,14 @@ class Queen(Piece):
         return check_valid_tower_move(self, tox, toy) or check_valid_runner_move(self, tox, toy)
 
     def drawSelf(self, canvas):
-        pass
+        canvas.create_rectangle(self.position[0] * 110 + 30, self.position[1] * 110 + 30, self.position[0] * 110 + 80,
+                                self.position[1] * 110 + 80, fill=self.team)
+        canvas.create_line(self.position[0] *110 + 30, self.position[1]*110 +30, self.position[0]*110 + 80, self.position[1]*110 + 80, fill="red", width=2)
+        canvas.create_line(self.position[0] *110 + 30, self.position[1]*110 +80, self.position[0]*110 + 80, self.position[1]*110 + 30, fill="red", width=2)
+        canvas.create_line(self.position[0] * 110 + 30, self.position[1] * 110 + 55, self.position[0] * 110 + 80,
+                           self.position[1] * 110 + 55, fill="red", width=2)
+        canvas.create_line(self.position[0] * 110 + 55, self.position[1] * 110 + 30, self.position[0] * 110 + 55,
+                           self.position[1] * 110 + 80, fill="red", width=2)
 
 
 def check_valid_tower_move(tower, tox, toy):
@@ -191,6 +198,8 @@ class Tower(Piece):
     def drawSelf(self, canvas):
         canvas.create_rectangle(self.position[0] * 110 + 30, self.position[1] * 110 + 30, self.position[0] * 110 + 80,
                                 self.position[1] * 110 + 80, fill=self.team)
+        canvas.create_line(self.position[0] * 110 + 30, self.position[1] * 110 + 55, self.position[0] * 110 + 80,
+                           self.position[1] * 110 + 55, fill="red", width=2)
         canvas.create_line(self.position[0] * 110 + 55, self.position[1] * 110 + 30, self.position[0] * 110 + 55,
                            self.position[1] * 110 + 80, fill="red", width=2)
 
@@ -246,7 +255,10 @@ class Runner(Piece):
         return check_valid_runner_move(self, tox, toy)
 
     def drawSelf(self, canvas):
-        pass
+        canvas.create_rectangle(self.position[0] * 110 + 30, self.position[1] * 110 + 30, self.position[0] * 110 + 80,
+                                self.position[1] * 110 + 80, fill=self.team)
+        canvas.create_line(self.position[0] *110 + 30, self.position[1]*110 +30, self.position[0]*110 + 80, self.position[1]*110 + 80, fill="red", width=2)
+        canvas.create_line(self.position[0] *110 + 30, self.position[1]*110 +80, self.position[0]*110 + 80, self.position[1]*110 + 30, fill="red", width=2)
 
 
 class Knight(Piece):
