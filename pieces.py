@@ -23,6 +23,7 @@ class Piece:
     def updatePosition(self, xpos, ypos):
         self.position = [xpos, ypos]
 
+
 class King(Piece):
     def __init__(self, xpos, ypos, team):
         self.board = None
@@ -194,6 +195,10 @@ class Tower(Piece):
                            self.position[1] * 110 + 80, fill="red", width=2)
 
 
+def is_friendly(piece, x, y):
+    return not isinstance(piece.board[x][y], int) and (piece.board[x][y].team == piece.team)
+
+
 def check_valid_runner_move(runner, tox, toy):
     posx = runner.position[0]
     posy = runner.position[1]
@@ -201,7 +206,7 @@ def check_valid_runner_move(runner, tox, toy):
     if tox == posx or abs(float(toy - posy) / float(tox - posx)) != 1.0:
         return 0
 
-    if not isinstance(runner.board[tox][toy], int) and (runner.board[tox][toy].team == runner.team):
+    if is_friendly(runner, tox, toy):
         return 0
 
     distance = abs(posx - tox)
@@ -259,6 +264,20 @@ class Knight(Piece):
     def checkValidTurn(self, tox, toy):
         if not super(Knight, self).checkValidTurn(tox, toy):
             return 0
+
+        posx = self.position[0]
+        posy = self.position[1]
+
+        if abs(posx - tox) + abs(posy - toy) != 3:
+            return 0
+
+        if posx == tox or posy == toy:
+            return 0
+
+        if is_friendly(self, tox, toy):
+            return 0
+
+        return 1
 
     def drawSelf(self, canvas):
         pass

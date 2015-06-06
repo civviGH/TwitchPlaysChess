@@ -2,7 +2,7 @@
 
 import unittest
 
-from pieces import Tower, Runner, Queen
+from pieces import Tower, Runner, Queen, Knight, Peasant
 from board import addPiece
 from abc import abstractmethod
 
@@ -113,3 +113,35 @@ class TestQueen(PieceTestCase):
         other_piece = Tower(2, 6, 'white')
         addPiece(other_piece, self.board)
         self.assertFalse(self.OUT.checkValidTurn(2, 7))
+
+
+class TestKnight(PieceTestCase):
+    def getPiece(self):
+        return Knight(3, 4, 'white')
+
+    def test_allowed_moves(self):
+        self.assertTrue(self.OUT.checkValidTurn(1, 3))
+        self.assertTrue(self.OUT.checkValidTurn(1, 5))
+        self.assertTrue(self.OUT.checkValidTurn(2, 2))
+        self.assertTrue(self.OUT.checkValidTurn(2, 6))
+        self.assertTrue(self.OUT.checkValidTurn(4, 2))
+        self.assertTrue(self.OUT.checkValidTurn(4, 6))
+        self.assertTrue(self.OUT.checkValidTurn(5, 3))
+        self.assertTrue(self.OUT.checkValidTurn(5, 5))
+
+    def test_disallowed_moves(self):
+        self.assertFalse(self.OUT.checkValidTurn(0, 4))
+        self.assertFalse(self.OUT.checkValidTurn(0, 0))
+
+    def test_target_area(self):
+        other_friendly_piece = Tower(1, 3, 'white')
+        other_enemy_piece = Tower(1, 5, 'black')
+        addPiece(other_friendly_piece, self.board)
+        addPiece(other_enemy_piece, self.board)
+        self.assertFalse(self.OUT.checkValidTurn(1, 3))
+        self.assertTrue(self.OUT.checkValidTurn(1, 5))
+
+    def test_out_of_board(self):
+        self.OUT = Knight(6, 6, 'white')
+        addPiece(self.OUT, self.board)
+        self.assertFalse(self.OUT.checkValidTurn(8, 7))
