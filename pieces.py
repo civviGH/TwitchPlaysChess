@@ -94,13 +94,85 @@ class Queen(Piece):
     def checkValidTurn(self, tox, toy):
         if not super(Queen, self).checkValidTurn(tox, toy):
             return 0
-
+        return check_valid_tower_move(self, tox, toy) or check_valid_runner_move(self, tox, toy)
 
     def updatePosition(self, xpos, ypos):
         pass
 
     def drawSelf(self, canvas):
         pass
+
+
+def check_valid_tower_move(tower, tox, toy):
+    # own position
+    posx = tower.position[0]
+    posy = tower.position[1]
+    # check if target position is held by teammate
+    try:
+        if tower.board[tox][toy].team == tower.team:
+            if debug:
+                print "Bewegung von {} durch Figur eigenes Teams aufgehalten".format(tower.name)
+            return 0
+    # throws exception on board[tox][toy] == 0
+    except AttributeError as a:
+        pass
+
+    # moving along y axis
+    if tox == posx and abs(posy - toy) > 1:
+
+
+        """
+        koennte in eine funktion ausgelagert werden,
+        die fuer zwei beliebige natuerliche zahlen  x,y alle
+        zahlen dazwischen gibt, so dass zb
+            foo(7,3) -> [4,5,6] etc
+        """
+
+        # check for range(x,y), as it only works with x < y
+        if posy > toy:
+
+            # check every field between pos and target
+            for i in range(toy + 1, posy):
+                # if obstacle found
+                if tower.board[posx][i] != 0:
+                    if debug:
+                        print "Bewegung von {} nicht moeglich, Hinderniss bei x:{}, y:{}".format(tower.name, posx, i)
+                    return 0
+            # else unit can passthrough
+            return 1
+        else:
+            # check every field between pos and target
+            for i in range(posy + 1, toy):
+                if tower.board[posx][i] != 0:
+                    if debug:
+                        print "Bewegung von {} nicht moeglich, Hinderniss bei x:{}, y:{}".format(tower.name, posx, i)
+                    return 0
+            return 1
+
+    # moving along x axis, same checks as above
+    elif toy == posy and abs(posx - tox) > 1:
+        if posx > tox:
+            for i in range(tox + 1, posx):
+                if tower.board[i][posy] != 0:
+                    if debug:
+                        print "Bewegung von {} nicht moeglich, Hinderniss bei x:{}, y:{}".format(tower.name,
+                                                                                                 posx + 1, i)
+                    return 0
+            return 1
+        else:
+            for i in range(posx + 1, tox):
+                if tower.board[i][posy] != 0:
+                    if debug:
+                        print "Bewegung von {} nicht moeglich, Hinderniss bei x:{}, y:{}".format(tower.name,
+                                                                                                 posx + 1, i)
+                    return 0
+            return 1
+    # check for diagonal movement
+    elif toy != posy and tox != posx:
+        if debug:
+            print "Bewegung von {} diagonal nicht moeglich".format(tower.name)
+        return 0
+    return 1
 
 
 class Tower(Piece):
@@ -116,75 +188,7 @@ class Tower(Piece):
         if not super(Tower, self).checkValidTurn(tox, toy):
             return 0
 
-        # own position
-        posx = self.position[0]
-        posy = self.position[1]
-        # check if target position is held by teammate
-        try:
-            if self.board[tox][toy].team == self.team:
-                if debug:
-                    print "Bewegung von {} durch Figur eigenes Teams aufgehalten".format(self.name)
-                return 0
-        # throws exception on board[tox][toy] == 0
-        except AttributeError as a:
-            pass
-
-        # moving along y axis
-        if tox == posx and abs(posy - toy) > 1:
-
-
-            """
-            koennte in eine funktion ausgelagert werden,
-            die fuer zwei beliebige natuerliche zahlen  x,y alle
-            zahlen dazwischen gibt, so dass zb
-                foo(7,3) -> [4,5,6] etc
-            """
-
-            # check for range(x,y), as it only works with x < y
-            if posy > toy:
-
-                # check every field between pos and target
-                for i in range(toy + 1, posy):
-                    # if obstacle found
-                    if self.board[posx][i] != 0:
-                        if debug:
-                            print "Bewegung von {} nicht moeglich, Hinderniss bei x:{}, y:{}".format(self.name, posx, i)
-                        return 0
-                # else unit can passthrough
-                return 1
-            else:
-                # check every field between pos and target
-                for i in range(posy + 1, toy):
-                    if self.board[posx][i] != 0:
-                        if debug:
-                            print "Bewegung von {} nicht moeglich, Hinderniss bei x:{}, y:{}".format(self.name, posx, i)
-                        return 0
-                return 1
-
-        # moving along x axis, same checks as above
-        elif toy == posy and abs(posx - tox) > 1:
-            if posx > tox:
-                for i in range(tox + 1, posx):
-                    if self.board[i][posy] != 0:
-                        if debug:
-                            print "Bewegung von {} nicht moeglich, Hinderniss bei x:{}, y:{}".format(self.name,
-                                                                                                     posx + 1, i)
-                        return 0
-                return 1
-            else:
-                for i in range(posx + 1, tox):
-                    if self.board[i][posy] != 0:
-                        if debug:
-                            print "Bewegung von {} nicht moeglich, Hinderniss bei x:{}, y:{}".format(self.name,
-                                                                                                     posx + 1, i)
-                        return 0
-                return 1
-        # check for diagonal movement
-        elif toy != posy and tox != posx:
-            if debug:
-                print "Bewegung von {} diagonal nicht moeglich".format(self.name)
-            return 0
-        return 1
+        return check_valid_tower_move(self, tox, toy)
 
     def updatePosition(self, xpos, ypos):
         self.position = [xpos, ypos]
@@ -195,6 +199,29 @@ class Tower(Piece):
                                 self.position[1] * 110 + 80, fill=self.team)
         canvas.create_line(self.position[0] * 110 + 55, self.position[1] * 110 + 30, self.position[0] * 110 + 55,
                            self.position[1] * 110 + 80, fill="red", width=2)
+
+
+def check_valid_runner_move(runner, tox, toy):
+    posx = runner.position[0]
+    posy = runner.position[1]
+
+    if tox == posx or abs(float(toy - posy) / float(tox - posx)) != 1.0:
+        return 0
+
+    if not isinstance(runner.board[tox][toy], int) and (runner.board[tox][toy].team == runner.team):
+        return 0
+
+    distance = abs(posx - tox)
+    modifier_x = (tox - posx) / abs(posx - tox)
+    modifier_y = (toy - posy) / abs(posy - toy)
+    current_x = posx + modifier_x
+    current_y = posy + modifier_y
+    for i in range(distance - 1):
+        if not isinstance(runner.board[current_x][current_y], int):
+            return 0
+        current_x += modifier_x
+        current_y += modifier_y
+    return 1
 
 
 class Runner(Piece):
@@ -218,27 +245,7 @@ class Runner(Piece):
     def checkValidTurn(self, tox, toy):
         if not super(Runner, self).checkValidTurn(tox, toy):
             return 0
-
-        posx = self.position[0]
-        posy = self.position[1]
-
-        if tox == posx or abs(float(toy - posy) / float(tox - posx)) != 1.0:
-            return 0
-
-        if not isinstance(self.board[tox][toy], int) and (self.board[tox][toy].team == self.team):
-            return 0
-
-        distance = abs(posx - tox)
-        modifier_x = (tox - posx) / abs(posx - tox)
-        modifier_y = (toy - posy) / abs(posy - toy)
-        current_x = posx + modifier_x
-        current_y = posy + modifier_y
-        for i in range(distance - 1):
-            if not isinstance(self.board[current_x][current_y], int):
-                return 0
-            current_x += modifier_x
-            current_y += modifier_y
-        return 1
+        return check_valid_runner_move(self, tox, toy)
 
     def updatePosition(self, xpos, ypos):
         pass
