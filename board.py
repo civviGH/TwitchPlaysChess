@@ -84,6 +84,10 @@ if __name__ == "__main__":
     addPiece(queenwhite, board)
     runnerblack = p.Runner(7,7, "black")
     addPiece(runnerblack, board)
+    knightblack = p.Knight(4,5, "black")
+    addPiece(knightblack, board)
+    pawnwhite = p.Peasant(0, 4, "white")
+    addPiece(pawnwhite, board)
 
     updateBoard(MainCanvas, board)
 

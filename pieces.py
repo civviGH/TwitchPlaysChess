@@ -292,7 +292,10 @@ class Knight(Piece):
         return 1
 
     def drawSelf(self, canvas):
-        pass
+        canvas.create_rectangle(self.position[0] * 110 + 30, self.position[1] * 110 + 30, self.position[0] * 110 + 80,
+                                self.position[1] * 110 + 80, fill=self.team)
+        canvas.create_rectangle(self.position[0] * 110 + 40, self.position[1] * 110 + 40, self.position[0] * 110 + 70,
+                                self.position[1] * 110 + 70, fill="red")
 
 
 class Peasant(Piece):
@@ -311,4 +314,7 @@ class Peasant(Piece):
             return 0
 
     def drawSelf(self, canvas):
-        pass
+        canvas.create_rectangle(self.position[0] * 110 + 30, self.position[1] * 110 + 30, self.position[0] * 110 + 80,
+                                self.position[1] * 110 + 80, fill=self.team)
+        canvas.create_rectangle(self.position[0] * 110 + 50, self.position[1] * 110 + 50, self.position[0] * 110 + 60,
+                                self.position[1] * 110 + 60, fill="red")
