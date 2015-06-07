@@ -298,12 +298,12 @@ class Knight(Piece):
                                 self.position[1] * 110 + 70, fill="red")
 
 
-class Peasant(Piece):
+class Pawn(Piece):
     def __init__(self, xpos, ypos, team):
         self.position = [xpos, ypos]
         self.team = team
         self.doesJump = False
-        self.name = "Peasant {}".format(team)
+        self.name = "Pawn {}".format(team)
 
     """
     TODO

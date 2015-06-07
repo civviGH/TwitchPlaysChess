@@ -74,21 +74,32 @@ if __name__ == "__main__":
     """
 
     #testing
-    towerwhite = p.Tower(2, 2, "white")
-    board[2][2] = towerwhite
-    towerblack = p.Tower(2, 5, "black")
-    addPiece(towerblack, board)
-    kingwhite = p.King(5, 2, "white")
-    addPiece(kingwhite, board)
-    queenwhite = p.Queen(3,3, "white")
-    addPiece(queenwhite, board)
-    runnerblack = p.Runner(7,7, "black")
-    addPiece(runnerblack, board)
-    knightblack = p.Knight(4,5, "black")
-    addPiece(knightblack, board)
-    pawnwhite = p.Peasant(0, 4, "white")
-    addPiece(pawnwhite, board)
-
+    #add complete board
+    whitepawns = []
+    blackpawns = []
+    for i in range(0,8):
+        addPiece(p.Pawn(i,6,"white"), board)
+        addPiece(p.Pawn(i,1,"black"),board)
+    #whiteside
+    addPiece(p.Tower(0,7,"white"), board)
+    addPiece(p.Knight(1,7,"white"), board)
+    addPiece(p.Runner(2,7,"white"), board)
+    addPiece(p.Queen(3,7,"white"), board)
+    addPiece(p.King(4,7,"white"), board)
+    addPiece(p.Runner(5,7,"white"), board)
+    addPiece(p.Knight(6,7,"white"), board)
+    addPiece(p.Tower(7,7,"white"), board)
+    
+    #blackside
+    addPiece(p.Tower(0,0,"black"), board)
+    addPiece(p.Knight(1,0,"black"), board)
+    addPiece(p.Runner(2,0,"black"), board)
+    addPiece(p.Queen(3,0,"black"), board)
+    addPiece(p.King(4,0,"black"), board)
+    addPiece(p.Runner(5,0,"black"), board)
+    addPiece(p.Knight(6,0,"black"), board)
+    addPiece(p.Tower(7,0,"black"), board)
+    
     updateBoard(MainCanvas, board)
 
     # fetch input
@@ -110,7 +121,7 @@ if __name__ == "__main__":
                 #check if theres an actual piece on position
                 if board[fromx][fromy] != 0:
                     #check for valid move
-                    if board[fromx][fromy].checkValidTurn(tox, toy, board):
+                    if board[fromx][fromy].checkValidTurn(tox, toy):
                         #update board | auslagern?
                         board[fromx][fromy].updatePosition(tox, toy)
                         board[tox][toy] = board[fromx][fromy]
