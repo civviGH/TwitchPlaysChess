@@ -305,13 +305,40 @@ class Pawn(Piece):
         self.doesJump = False
         self.name = "Pawn {}".format(team)
 
-    """
-    TODO
-    """
-
     def checkValidTurn(self, tox, toy):
-        if not super(Peasant, self).checkValidTurn(tox, toy):
+        """
+        TODO:
+        en peasant
+        regeln zum schlagen
+        promotion
+        """
+        if not super(Pawn, self).checkValidTurn(tox, toy):
             return 0
+        if is_friendly(self, tox, toy):
+            return 0
+        posx = self.position[0]
+        posy = self.position[1]
+        if posx != tox:
+            return 0
+        if self.team == "white":
+            if toy >= posy:
+                return 0
+            elif posy == 6:
+                if posy>(toy+2):
+                    return 0
+            else:
+                if posy>(toy+1):
+                    return 0
+        if self.team == "black":
+            if toy <= posy:
+                return 0
+            elif posy == 1:
+                if toy != 2 and toy != 3:
+                    return 0
+            else:
+                if toy != 2:
+                    return 0
+        return 1
 
     def drawSelf(self, canvas):
         canvas.create_rectangle(self.position[0] * 110 + 30, self.position[1] * 110 + 30, self.position[0] * 110 + 80,

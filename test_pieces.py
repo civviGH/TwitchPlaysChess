@@ -2,7 +2,7 @@
 
 import unittest
 
-from pieces import Tower, Runner, Queen, Knight, Peasant
+from pieces import Tower, Runner, Queen, Knight, Pawn
 from board import addPiece
 from abc import abstractmethod
 
@@ -145,3 +145,66 @@ class TestKnight(PieceTestCase):
         self.OUT = Knight(6, 6, 'white')
         addPiece(self.OUT, self.board)
         self.assertFalse(self.OUT.checkValidTurn(8, 7))
+
+class TestWhitePawn(PieceTestCase):
+    """
+    on peasant noch nicht im test
+    schlagen noch nicht im test
+    promotion nicht im test
+    """
+    def getPiece(self):
+        return Pawn(1,6, "white")
+    
+    def test_allowed_moves(self):
+        self.assertTrue(self.OUT.checkValidTurn(1,5))
+        self.assertTrue(self.OUT.checkValidTurn(1,4))
+        
+    def test_disallowed_moves(self):
+        self.assertFalse(self.OUT.checkValidTurn(2,6))
+        self.assertFalse(self.OUT.checkValidTurn(1,3))
+        self.assertFalse(self.OUT.checkValidTurn(1,7))
+        self.assertFalse(self.OUT.checkValidTurn(1,6))
+
+    def test_target_area(self):
+        other_friendly_piece = Tower(1,5,"white")
+        addPiece(other_friendly_piece, self.board)
+        self.assertFalse(self.OUT.checkValidTurn(1,5))
+        other_pawn = Pawn(2,6,"white")
+        addPiece(other_pawn, self.board)
+        other_enemy_piece = Tower(2,5,"black")
+        addPiece(other_enemy_piece, self.board)
+        self.assertTrue(other_pawn.checkValidTurn(2,5))
+            
+    def test_out_of_board(self):
+        self.OUT = Pawn(1,0,"white")
+        addPiece(self.OUT, self.board)
+        self.assertFalse(self.OUT.checkValidTurn(1,-1))
+        
+class TestBlackPawn(PieceTestCase):
+    def getPiece(self):
+        return Pawn(1,1, "black")
+    
+    def test_allowed_moves(self):
+        self.assertTrue(self.OUT.checkValidTurn(1,2))
+        self.assertTrue(self.OUT.checkValidTurn(1,3))
+        
+    def test_disallowed_moves(self):
+        self.assertFalse(self.OUT.checkValidTurn(2,1))
+        self.assertFalse(self.OUT.checkValidTurn(1,0))
+        self.assertFalse(self.OUT.checkValidTurn(1,4))
+        self.assertFalse(self.OUT.checkValidTurn(1,5))
+
+    def test_target_area(self):
+        other_friendly_piece = Tower(1,2,"black")
+        addPiece(other_friendly_piece, self.board)
+        self.assertFalse(self.OUT.checkValidTurn(1,2))
+        other_pawn = Pawn(2,1,"black")
+        addPiece(other_pawn, self.board)
+        other_enemy_piece = Tower(2,2,"white")
+        addPiece(other_enemy_piece, self.board)
+        self.assertTrue(other_pawn.checkValidTurn(2,2))
+            
+    def test_out_of_board(self):
+        self.OUT = Pawn(1,7,"black")
+        addPiece(self.OUT, self.board)
+        self.assertFalse(self.OUT.checkValidTurn(1,8))
