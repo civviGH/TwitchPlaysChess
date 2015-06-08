@@ -56,7 +56,7 @@ if __name__ == "__main__":
     MainCanvas.grid(row=1, column=1)
 
     #vertical numbers on the left side of the board
-    numbersLeft = Tk.Label(root, bg="white", text="\n".join("12345678"), font=("Helvetica", 73))
+    numbersLeft = Tk.Label(root, bg="white", text="\n".join("87654321"), font=("Helvetica", 73))
     numbersLeft.grid(row=1, column=0)
 
     #letters on the top of the board
@@ -69,37 +69,34 @@ if __name__ == "__main__":
     #initialize board
     board = [[0 for x in range(8)] for x in range(8)]
 
-    """
-    das hier kann man bestimmt schoen als tests auslagern
-    """
-
     #testing
+    #addPiece(p.Tower(0,0,"white"),board)
     #add complete board
     whitepawns = []
     blackpawns = []
     for i in range(0,8):
-        addPiece(p.Pawn(i,6,"white"), board)
-        addPiece(p.Pawn(i,1,"black"),board)
+        addPiece(p.Pawn(i,6,"black"), board)
+        addPiece(p.Pawn(i,1,"white"),board)
     #whiteside
-    addPiece(p.Tower(0,7,"white"), board)
-    addPiece(p.Knight(1,7,"white"), board)
-    addPiece(p.Runner(2,7,"white"), board)
-    addPiece(p.Queen(3,7,"white"), board)
-    addPiece(p.King(4,7,"white"), board)
-    addPiece(p.Runner(5,7,"white"), board)
-    addPiece(p.Knight(6,7,"white"), board)
-    addPiece(p.Tower(7,7,"white"), board)
+    addPiece(p.Tower(0,7,"black"), board)
+    addPiece(p.Knight(1,7,"black"), board)
+    addPiece(p.Runner(2,7,"black"), board)
+    addPiece(p.Queen(3,7,"black"), board)
+    addPiece(p.King(4,7,"black"), board)
+    addPiece(p.Runner(5,7,"black"), board)
+    addPiece(p.Knight(6,7,"black"), board)
+    addPiece(p.Tower(7,7,"black"), board)
     
     #blackside
-    addPiece(p.Tower(0,0,"black"), board)
-    addPiece(p.Knight(1,0,"black"), board)
-    addPiece(p.Runner(2,0,"black"), board)
-    addPiece(p.Queen(3,0,"black"), board)
-    addPiece(p.King(4,0,"black"), board)
-    addPiece(p.Runner(5,0,"black"), board)
-    addPiece(p.Knight(6,0,"black"), board)
-    addPiece(p.Tower(7,0,"black"), board)
-    
+    addPiece(p.Tower(0,0,"white"), board)
+    addPiece(p.Knight(1,0,"white"), board)
+    addPiece(p.Runner(2,0,"white"), board)
+    addPiece(p.Queen(3,0,"white"), board)
+    addPiece(p.King(4,0,"white"), board)
+    addPiece(p.Runner(5,0,"white"), board)
+    addPiece(p.Knight(6,0,"white"), board)
+    addPiece(p.Tower(7,0,"white"), board)
+
     updateBoard(MainCanvas, board)
 
     # fetch input

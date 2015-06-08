@@ -75,8 +75,8 @@ class King(Piece):
 
     # draw piece on board, dimensions hardcoded atm
     def drawSelf(self, canvas):
-        canvas.create_rectangle(self.position[0] * 110 + 30, self.position[1] * 110 + 30, self.position[0] * 110 + 80,
-                                self.position[1] * 110 + 80, fill=self.team)
+        canvas.create_rectangle(self.position[0] * 110 + 30, abs(7-self.position[1]) * 110 + 30, self.position[0] * 110 + 80,
+                                abs(7-self.position[1]) * 110 + 80, fill=self.team)
 
 
 class Queen(Piece):
@@ -87,24 +87,20 @@ class Queen(Piece):
         self.doesJump = False
         self.name = "Lady {}".format(team)
 
-    """
-    TODO
-    """
-
     def checkValidTurn(self, tox, toy):
         if not super(Queen, self).checkValidTurn(tox, toy):
             return 0
         return check_valid_tower_move(self, tox, toy) or check_valid_runner_move(self, tox, toy)
 
     def drawSelf(self, canvas):
-        canvas.create_rectangle(self.position[0] * 110 + 30, self.position[1] * 110 + 30, self.position[0] * 110 + 80,
-                                self.position[1] * 110 + 80, fill=self.team)
-        canvas.create_line(self.position[0] *110 + 30, self.position[1]*110 +30, self.position[0]*110 + 80, self.position[1]*110 + 80, fill="red", width=2)
-        canvas.create_line(self.position[0] *110 + 30, self.position[1]*110 +80, self.position[0]*110 + 80, self.position[1]*110 + 30, fill="red", width=2)
-        canvas.create_line(self.position[0] * 110 + 30, self.position[1] * 110 + 55, self.position[0] * 110 + 80,
-                           self.position[1] * 110 + 55, fill="red", width=2)
-        canvas.create_line(self.position[0] * 110 + 55, self.position[1] * 110 + 30, self.position[0] * 110 + 55,
-                           self.position[1] * 110 + 80, fill="red", width=2)
+        canvas.create_rectangle(self.position[0] * 110 + 30, abs(7-self.position[1]) * 110 + 30, self.position[0] * 110 + 80,
+                                abs(7-self.position[1]) * 110 + 80, fill=self.team)
+        canvas.create_line(self.position[0] *110 + 30, abs(7-self.position[1])*110 +30, self.position[0]*110 + 80, abs(7-self.position[1])*110 + 80, fill="red", width=2)
+        canvas.create_line(self.position[0] *110 + 30, abs(7-self.position[1])*110 +80, self.position[0]*110 + 80, abs(7-self.position[1])*110 + 30, fill="red", width=2)
+        canvas.create_line(self.position[0] * 110 + 30, abs(7-self.position[1]) * 110 + 55, self.position[0] * 110 + 80,
+                           abs(7-self.position[1]) * 110 + 55, fill="red", width=2)
+        canvas.create_line(self.position[0] * 110 + 55, abs(7-self.position[1]) * 110 + 30, self.position[0] * 110 + 55,
+                           abs(7-self.position[1]) * 110 + 80, fill="red", width=2)
 
 
 def check_valid_tower_move(tower, tox, toy):
@@ -196,12 +192,12 @@ class Tower(Piece):
 
     # square with line from top to bottom
     def drawSelf(self, canvas):
-        canvas.create_rectangle(self.position[0] * 110 + 30, self.position[1] * 110 + 30, self.position[0] * 110 + 80,
-                                self.position[1] * 110 + 80, fill=self.team)
-        canvas.create_line(self.position[0] * 110 + 30, self.position[1] * 110 + 55, self.position[0] * 110 + 80,
-                           self.position[1] * 110 + 55, fill="red", width=2)
-        canvas.create_line(self.position[0] * 110 + 55, self.position[1] * 110 + 30, self.position[0] * 110 + 55,
-                           self.position[1] * 110 + 80, fill="red", width=2)
+        canvas.create_rectangle(self.position[0] * 110 + 30, abs(7-self.position[1]) * 110 + 30, self.position[0] * 110 + 80,
+                                abs(7-self.position[1]) * 110 + 80, fill=self.team)
+        canvas.create_line(self.position[0] * 110 + 30, abs(7-self.position[1]) * 110 + 55, self.position[0] * 110 + 80,
+                           abs(7-self.position[1]) * 110 + 55, fill="red", width=2)
+        canvas.create_line(self.position[0] * 110 + 55, abs(7-self.position[1]) * 110 + 30, self.position[0] * 110 + 55,
+                           abs(7-self.position[1]) * 110 + 80, fill="red", width=2)
 
 
 def is_friendly(piece, x, y):
@@ -245,20 +241,16 @@ class Runner(Piece):
         else:
             return x
 
-    """
-    TODO
-    """
-
     def checkValidTurn(self, tox, toy):
         if not super(Runner, self).checkValidTurn(tox, toy):
             return 0
         return check_valid_runner_move(self, tox, toy)
 
     def drawSelf(self, canvas):
-        canvas.create_rectangle(self.position[0] * 110 + 30, self.position[1] * 110 + 30, self.position[0] * 110 + 80,
-                                self.position[1] * 110 + 80, fill=self.team)
-        canvas.create_line(self.position[0] *110 + 30, self.position[1]*110 +30, self.position[0]*110 + 80, self.position[1]*110 + 80, fill="red", width=2)
-        canvas.create_line(self.position[0] *110 + 30, self.position[1]*110 +80, self.position[0]*110 + 80, self.position[1]*110 + 30, fill="red", width=2)
+        canvas.create_rectangle(self.position[0] * 110 + 30, abs(7-self.position[1]) * 110 + 30, self.position[0] * 110 + 80,
+                                abs(7-self.position[1]) * 110 + 80, fill=self.team)
+        canvas.create_line(self.position[0] *110 + 30, abs(7-self.position[1])*110 +30, self.position[0]*110 + 80, abs(7-self.position[1])*110 + 80, fill="red", width=2)
+        canvas.create_line(self.position[0] *110 + 30, abs(7-self.position[1])*110 +80, self.position[0]*110 + 80, abs(7-self.position[1])*110 + 30, fill="red", width=2)
 
 
 class Knight(Piece):
@@ -268,10 +260,6 @@ class Knight(Piece):
         self.team = team
         self.doesJump = True
         self.name = "Knight {}".format(team)
-
-    """
-    TODO
-    """
 
     def checkValidTurn(self, tox, toy):
         if not super(Knight, self).checkValidTurn(tox, toy):
@@ -292,10 +280,10 @@ class Knight(Piece):
         return 1
 
     def drawSelf(self, canvas):
-        canvas.create_rectangle(self.position[0] * 110 + 30, self.position[1] * 110 + 30, self.position[0] * 110 + 80,
-                                self.position[1] * 110 + 80, fill=self.team)
-        canvas.create_rectangle(self.position[0] * 110 + 40, self.position[1] * 110 + 40, self.position[0] * 110 + 70,
-                                self.position[1] * 110 + 70, fill="red")
+        canvas.create_rectangle(self.position[0] * 110 + 30, abs(7-self.position[1]) * 110 + 30, self.position[0] * 110 + 80,
+                                abs(7-self.position[1]) * 110 + 80, fill=self.team)
+        canvas.create_rectangle(self.position[0] * 110 + 40, abs(7-self.position[1]) * 110 + 40, self.position[0] * 110 + 70,
+                                abs(7-self.position[1]) * 110 + 70, fill="red")
 
 
 class Pawn(Piece):
@@ -320,28 +308,34 @@ class Pawn(Piece):
         posy = self.position[1]
         if posx != tox:
             return 0
-        if self.team == "white":
+        if self.team == "black":
             if toy >= posy:
                 return 0
             elif posy == 6:
                 if posy>(toy+2):
                     return 0
+                if toy == posy - 2:
+                    if self.board[posx][posy-1] != 0:
+                        return 0
             else:
                 if posy>(toy+1):
                     return 0
-        if self.team == "black":
+        if self.team == "white":
             if toy <= posy:
                 return 0
             elif posy == 1:
                 if toy != 2 and toy != 3:
                     return 0
+                if toy == posy + 2:
+                    if self.board[posx][posy+1] != 0:
+                        return 0
             else:
-                if toy != 2:
+                if posy+1<(toy):
                     return 0
         return 1
 
     def drawSelf(self, canvas):
-        canvas.create_rectangle(self.position[0] * 110 + 30, self.position[1] * 110 + 30, self.position[0] * 110 + 80,
-                                self.position[1] * 110 + 80, fill=self.team)
-        canvas.create_rectangle(self.position[0] * 110 + 50, self.position[1] * 110 + 50, self.position[0] * 110 + 60,
-                                self.position[1] * 110 + 60, fill="red")
+        canvas.create_rectangle(self.position[0] * 110 + 30, abs(7-self.position[1]) * 110 + 30, self.position[0] * 110 + 80,
+                                abs(7-self.position[1]) * 110 + 80, fill=self.team)
+        canvas.create_rectangle(self.position[0] * 110 + 50, abs(7-self.position[1]) * 110 + 50, self.position[0] * 110 + 60,
+                                abs(7-self.position[1]) * 110 + 60, fill="red")
