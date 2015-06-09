@@ -146,87 +146,102 @@ class TestKnight(PieceTestCase):
         addPiece(self.OUT, self.board)
         self.assertFalse(self.OUT.checkValidTurn(8, 7))
 
+
 class TestBlackPawn(PieceTestCase):
     """
-    on peasant noch nicht im test
-    schlagen noch nicht im test
+    on passant noch nicht im test
     promotion nicht im test
     """
+
     def getPiece(self):
-        return Pawn(1,6, "black")
-    
+        return Pawn(1, 6, "black")
+
     def test_allowed_moves(self):
-        self.assertTrue(self.OUT.checkValidTurn(1,5))
-        self.assertTrue(self.OUT.checkValidTurn(1,4))
-        self.OUT = Pawn(1,4, "black")
+        self.assertTrue(self.OUT.checkValidTurn(1, 5))
+        self.assertTrue(self.OUT.checkValidTurn(1, 4))
+        self.OUT = Pawn(1, 4, "black")
         addPiece(self.OUT, self.board)
-        self.assertTrue(self.OUT.checkValidTurn(1,3))
-        
+        self.assertTrue(self.OUT.checkValidTurn(1, 3))
+
     def test_disallowed_moves(self):
-        self.assertFalse(self.OUT.checkValidTurn(2,6))
-        self.assertFalse(self.OUT.checkValidTurn(1,3))
-        self.assertFalse(self.OUT.checkValidTurn(1,7))
-        self.assertFalse(self.OUT.checkValidTurn(1,6))
-        self.OUT = Pawn(1,4, "black")
+        self.assertFalse(self.OUT.checkValidTurn(2, 6))
+        self.assertFalse(self.OUT.checkValidTurn(1, 3))
+        self.assertFalse(self.OUT.checkValidTurn(1, 7))
+        self.assertFalse(self.OUT.checkValidTurn(1, 6))
+        self.OUT = Pawn(1, 4, "black")
         addPiece(self.OUT, self.board)
-        self.assertFalse(self.OUT.checkValidTurn(1,2))
+        self.assertFalse(self.OUT.checkValidTurn(1, 2))
 
     def test_target_area(self):
-        other_friendly_piece = Tower(1,5,"black")
+        other_friendly_piece = Tower(1, 5, "black")
         addPiece(other_friendly_piece, self.board)
-        self.assertFalse(self.OUT.checkValidTurn(1,5))
-        other_pawn = Pawn(2,6,"black")
+        self.assertFalse(self.OUT.checkValidTurn(1, 5))
+        other_pawn = Pawn(2, 6, "black")
         addPiece(other_pawn, self.board)
-        other_enemy_piece = Tower(2,5,"white")
+        other_enemy_piece = Tower(2, 5, "white")
         addPiece(other_enemy_piece, self.board)
-        self.assertTrue(other_pawn.checkValidTurn(2,5))
-            
+        self.assertFalse(other_pawn.checkValidTurn(2, 5))
+        other_enemy_piece2 = Tower(3, 5, "white")
+        addPiece(other_enemy_piece2, self.board)
+        self.assertTrue(other_pawn.checkValidTurn(3, 5))
+
     def test_out_of_board(self):
-        self.OUT = Pawn(1,0,"black")
+        self.OUT = Pawn(1, 0, "black")
         addPiece(self.OUT, self.board)
-        self.assertFalse(self.OUT.checkValidTurn(1,-1))
-        
+        self.assertFalse(self.OUT.checkValidTurn(1, -1))
+
     def test_blockage(self):
-        other_piece = Knight(1,5, "white")
+        other_piece = Knight(1, 5, "white")
         addPiece(other_piece, self.board)
-        self.assertFalse(self.OUT.checkValidTurn(1,4))
-        
+        self.assertFalse(self.OUT.checkValidTurn(1, 4))
+
+
 class TestWhitePawn(PieceTestCase):
     def getPiece(self):
-        return Pawn(1,1, "white")
-    
+        return Pawn(1, 1, "white")
+
     def test_allowed_moves(self):
-        self.assertTrue(self.OUT.checkValidTurn(1,2))
-        self.assertTrue(self.OUT.checkValidTurn(1,3))
-        self.OUT = Pawn(1,3, "white")
+        self.assertTrue(self.OUT.checkValidTurn(1, 2))
+        self.assertTrue(self.OUT.checkValidTurn(1, 3))
+        self.OUT = Pawn(1, 3, "white")
         addPiece(self.OUT, self.board)
-        self.assertTrue(self.OUT.checkValidTurn(1,4))
-        
+        self.assertTrue(self.OUT.checkValidTurn(1, 4))
+
     def test_disallowed_moves(self):
-        self.assertFalse(self.OUT.checkValidTurn(2,1))
-        self.assertFalse(self.OUT.checkValidTurn(1,0))
-        self.assertFalse(self.OUT.checkValidTurn(1,4))
-        self.assertFalse(self.OUT.checkValidTurn(1,5))
-        self.OUT = Pawn(1,3, "white")
+        self.assertFalse(self.OUT.checkValidTurn(2, 1))
+        self.assertFalse(self.OUT.checkValidTurn(1, 0))
+        self.assertFalse(self.OUT.checkValidTurn(1, 4))
+        self.assertFalse(self.OUT.checkValidTurn(1, 5))
+        self.assertFalse(self.OUT.checkValidTurn(2, 2))
+        self.OUT = Pawn(1, 3, "white")
         addPiece(self.OUT, self.board)
-        self.assertFalse(self.OUT.checkValidTurn(1,5))
+        self.assertFalse(self.OUT.checkValidTurn(1, 5))
 
     def test_target_area(self):
-        other_friendly_piece = Tower(1,2,"white")
+        # check for collision with friendly piece
+        other_friendly_piece = Tower(1, 2, "white")
         addPiece(other_friendly_piece, self.board)
-        self.assertFalse(self.OUT.checkValidTurn(1,2))
-        other_pawn = Pawn(2,1,"white")
+        self.assertFalse(self.OUT.checkValidTurn(1, 2))
+
+        # add other pawn
+        other_pawn = Pawn(2, 1, "white")
         addPiece(other_pawn, self.board)
-        other_enemy_piece = Tower(2,2,"black")
+        # check for collision with enemy piece
+        other_enemy_piece = Tower(2, 2, "black")
         addPiece(other_enemy_piece, self.board)
-        self.assertTrue(other_pawn.checkValidTurn(2,2))
-            
+        self.assertFalse(other_pawn.checkValidTurn(2, 2))
+
+        # check for valid move on enemy piece
+        other_enemy_piece2 = Tower(3, 2, "black")
+        addPiece(other_enemy_piece2, self.board)
+        self.assertTrue(other_pawn.checkValidTurn(3, 2))
+
     def test_out_of_board(self):
-        self.OUT = Pawn(1,7,"white")
+        self.OUT = Pawn(1, 7, "white")
         addPiece(self.OUT, self.board)
-        self.assertFalse(self.OUT.checkValidTurn(1,8))
-    
+        self.assertFalse(self.OUT.checkValidTurn(1, 8))
+
     def test_blockage(self):
-        other_piece = Knight(1,2, "white")
+        other_piece = Knight(1, 2, "white")
         addPiece(other_piece, self.board)
-        self.assertFalse(self.OUT.checkValidTurn(1,3))
+        self.assertFalse(self.OUT.checkValidTurn(1, 3))

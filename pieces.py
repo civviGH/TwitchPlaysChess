@@ -296,8 +296,7 @@ class Pawn(Piece):
     def checkValidTurn(self, tox, toy):
         """
         TODO:
-        en peasant
-        regeln zum schlagen
+        en passant
         promotion
         """
         if not super(Pawn, self).checkValidTurn(tox, toy):
@@ -306,7 +305,11 @@ class Pawn(Piece):
             return 0
         posx = self.position[0]
         posy = self.position[1]
-        if posx != tox:
+        if posx == tox and self.board[tox][toy] != 0:
+            return 0
+
+        # en passant stimmt hier nicht
+        if posx != tox and self.board[tox][toy] == 0:
             return 0
         if self.team == "black":
             if toy >= posy:
