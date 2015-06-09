@@ -292,11 +292,11 @@ class Pawn(Piece):
         self.team = team
         self.doesJump = False
         self.name = "Pawn {}".format(team)
+        self.doubleMoved = False
 
     def checkValidTurn(self, tox, toy):
         """
         TODO:
-        en passant
         promotion
         """
         if not super(Pawn, self).checkValidTurn(tox, toy):
@@ -308,22 +308,40 @@ class Pawn(Piece):
         if posx == tox and self.board[tox][toy] != 0:
             return 0
 
-        # en passant stimmt hier nicht
-        if posx != tox and self.board[tox][toy] == 0:
-            return 0
         if self.team == "black":
-            if toy >= posy:
+            if tox != posx:
+                if (posy - toy) != 1:
+                    return 0
+                elif self.board[tox][toy] == 0:
+                    if not isinstance(self.board[tox][toy+1], Pawn):
+                        return 0
+                    if not self.board[tox][toy+1].doubleMoved:
+                        return 0
+                    # right here it must have been en passant move
+                    self.board[tox][toy+1] = 0
+            elif toy >= posy:
                 return 0
             elif posy == 6:
-                if posy>(toy+2):
+                if posy > (toy+2):
                     return 0
                 if toy == posy - 2:
                     if self.board[posx][posy-1] != 0:
                         return 0
             else:
-                if posy>(toy+1):
+                if posy > (toy+1):
                     return 0
+
         if self.team == "white":
+            if tox != posx:
+                if (toy - posy) != 1:
+                    return 0
+                elif self.board[tox][toy] == 0:
+                    if not isinstance(self.board[tox][toy-1], Pawn):
+                        return 0
+                    if not self.board[tox][toy-1].doubleMoved:
+                        return 0
+                    # right here it must have been en passant move
+                    self.board[tox][toy-1] = 0
             if toy <= posy:
                 return 0
             elif posy == 1:
@@ -342,3 +360,18 @@ class Pawn(Piece):
                                 abs(7-self.position[1]) * 110 + 80, fill=self.team)
         canvas.create_rectangle(self.position[0] * 110 + 50, abs(7-self.position[1]) * 110 + 50, self.position[0] * 110 + 60,
                                 abs(7-self.position[1]) * 110 + 60, fill="red")
+
+    def updatePosition(self, xpos, ypos):
+        if abs(self.position[1] - ypos) == 2:
+            print self.name,
+            print "doppelmove"
+            self.doubleMoved = True
+        self.position[0] = xpos
+        self.position[1] = ypos
+
+    def setDoubleMoved(self, value):
+        if debug:
+            if not value and self.doubleMoved:
+                print self.name,
+                print "doppelmove weg"
+        self.doubleMoved = value

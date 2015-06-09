@@ -75,8 +75,6 @@ if __name__ == "__main__":
     # testing
     # addPiece(p.Tower(0,0,"white"),board)
     # add complete board
-    whitepawns = []
-    blackpawns = []
     for i in range(0, 8):
         addPiece(p.Pawn(i, 6, "black"), board)
         addPiece(p.Pawn(i, 1, "white"), board)
@@ -122,6 +120,20 @@ if __name__ == "__main__":
                 if board[fromx][fromy] != 0:
                     # check for valid move
                     if board[fromx][fromy].checkValidTurn(tox, toy):
+                        # if its a move by white, reset all white pawns doubleMoved value
+                        if board[fromx][fromy].team == "white":
+                            for i in range(0, 8):
+                                for j in range(0, 8):
+                                    if isinstance(board[i][j], p.Pawn):
+                                        if board[i][j].team == "white":
+                                            board[i][j].setDoubleMoved(False)
+                        # same for black
+                        elif board[fromx][fromy].team == "black":
+                            for i in range(0, 8):
+                                for j in range(0, 8):
+                                    if isinstance(board[i][j], p.Pawn):
+                                        if board[i][j].team == "black":
+                                            board[i][j].setDoubleMoved(False)
                         # update board | auslagern?
                         board[fromx][fromy].updatePosition(tox, toy)
                         board[tox][toy] = board[fromx][fromy]

@@ -195,6 +195,15 @@ class TestBlackPawn(PieceTestCase):
         addPiece(other_piece, self.board)
         self.assertFalse(self.OUT.checkValidTurn(1, 4))
 
+    def test_en_passant(self):
+        # add enemy piece that just double moved
+        enemy_piece = Pawn(3, 3, "white")
+        enemy_piece.setDoubleMoved(True)
+        addPiece(enemy_piece, self.board)
+        self.OUT = Pawn(2, 3, "black")
+        addPiece(self.OUT, self.board)
+        self.assertTrue(self.OUT.checkValidTurn(3, 2))
+
 
 class TestWhitePawn(PieceTestCase):
     def getPiece(self):
@@ -245,3 +254,12 @@ class TestWhitePawn(PieceTestCase):
         other_piece = Knight(1, 2, "white")
         addPiece(other_piece, self.board)
         self.assertFalse(self.OUT.checkValidTurn(1, 3))
+
+    def test_en_passant(self):
+        # add enemy piece that just double moved
+        enemy_piece = Pawn(3, 4, "black")
+        enemy_piece.setDoubleMoved(True)
+        addPiece(enemy_piece, self.board)
+        self.OUT = Pawn(2, 4, "white")
+        addPiece(self.OUT, self.board)
+        self.assertTrue(self.OUT.checkValidTurn(3, 5))
